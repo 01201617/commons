@@ -1,0 +1,15 @@
+/venv
+/.idea
+ml_package/data/
+ml_package/pytorch/data/
+ml_package/pytorch/deap_learning/data/
+# dataフォルダ以下はすべて無視
+*data/
+# 無視拡張子たち
+*.exe
+*.png
+*.csv
+*.pt
+*.gz
+*.log
+*.txt
