@@ -102,7 +102,7 @@ if __name__ == '__main__':
 
     current_time = datetime.datetime.now()
     specific_time = datetime.datetime(current_time.year, current_time.month, current_time.day, what_hour_days_start)
-    schedule.every(every_min).seconds.do(main_job, specific_time=specific_time)
+    schedule.every(every_min).minutes.do(main_job, specific_time=specific_time)
     while True:
         schedule.run_pending()
         # ただの無限ループでは無駄がある(1秒間に何度も実行タイミングかチェックする)ため、time.sleepで1秒間のスリープを挿入
