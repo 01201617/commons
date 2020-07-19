@@ -3,6 +3,8 @@
 ml_package/data/
 ml_package/pytorch/data/
 ml_package/pytorch/deap_learning/data/
+mainthread_package/co2/line_token.txt
+
 # dataフォルダ以下はすべて無視
 *data/
 # 無視拡張子たち
