@@ -11,10 +11,16 @@ def python_notify(line_token, message, *args):
     # 画像を含むか否か
     if len(args) == 0:
         requests.post(line_notify_api, data=payload, headers=headers)
+        return True
     else:
         # 画像
         files = {"imageFile": open(args[0], "rb")}
-        requests.post(line_notify_api, data=payload, headers=headers, files=files)
+        try:
+            requests.post(line_notify_api, data=payload, headers=headers, files=files)
+            return True
+        except requests.exceptions.ConnectionError as e:
+            return False
+
 
 
 if __name__=='__main__':

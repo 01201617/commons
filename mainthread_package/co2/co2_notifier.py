@@ -27,18 +27,20 @@ def main_job(specific_time):
     png_path = './png/' + current_day + '.png'
     send_flag_path = './flag/' + current_day + '.txt'
     if current_time.hour >= specific_time.hour:
-        if not os.path.isfile(send_flag_path) & os.path.isfile(png_path):
-            line_token = ''
-            with open('line_token.txt') as f:
-                l = f.readlines()
-                line_token = l[0]
-            # png_path = os.path.abspath(png_path)
-            send_png_to_line.python_notify(line_token, 'co2測定結果です', png_path)
-            # 送れた証拠に、flagファイル作成
-            os.makedirs('./flag', exist_ok=True)
-            f = open(send_flag_path, "w")
-            f.write("fin")
-            f.close()
+        if not os.path.isfile(send_flag_path):
+            if os.path.isfile(png_path):
+                line_token = ''
+                with open('line_token.txt') as f:
+                    l = f.readlines()
+                    line_token = l[0]
+                # png_path = os.path.abspath(png_path)
+                canSend = send_png_to_line.python_notify(line_token, 'co2測定結果です', png_path)
+                # 送れた証拠に、flagファイル作成
+                if canSend:
+                    os.makedirs('./flag', exist_ok=True)
+                    f = open(send_flag_path, "w")
+                    f.write("fin")
+                    f.close()
 
 
 def refresh_df(specific_time):
@@ -102,6 +104,7 @@ if __name__ == '__main__':
 
     current_time = datetime.datetime.now()
     specific_time = datetime.datetime(current_time.year, current_time.month, current_time.day, what_hour_days_start)
+    # schedule.every(every_min).seconds.do(main_job, specific_time=specific_time)
     schedule.every(every_min).minutes.do(main_job, specific_time=specific_time)
     while True:
         schedule.run_pending()
